@@ -1,1 +1,9 @@
 email/credintials.js
+node_modules
+.tmp
+.sass-cache
+bower_components
+.idea/
+.DS_Store
+main.css.map
+dist
