@@ -1,6 +1,6 @@
 'use strict';
 var Rx = require('rx');
-var dispatcher = require('../dispatcher/dispatcher.js');
+var dispatcher = require('../utils/dispatcher/dispatcher.js');
 
 class actionMain{
 
