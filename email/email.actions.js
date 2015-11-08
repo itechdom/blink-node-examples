@@ -7,7 +7,7 @@ class actionMain{
     constructor(){
         return {
 	    //remote control actions
-	    addTodo$:Rx.Observable.fromEvent(dispatcher.customEvent,'todo.addTodo$')
+	    incomingMessage$:Rx.Observable.fromEvent(dispatcher.customEvent,'incomingMessage$')
         }
     }
 }
