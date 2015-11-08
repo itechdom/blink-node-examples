@@ -1,62 +1,20 @@
-var Imap = require('imap'),
-    inspect = require('util').inspect;
+var google = require('googleapis');
+var OAuth2Client = google.auth.OAuth2;
+var gmail = google.gmail('v1');
+var credintials = require('./credintials');
 
-var credintials = require('./credintials.js');
+// Client ID and client secret are available at
+// https://code.google.com/apis/console
+var CLIENT_ID = credintials.client_id;
+var CLIENT_SECRET = credintials.client_secret;
+var REDIRECT_URL = 'http://www.itechdom.com';
 
-var imap = new Imap({
-	user: credintials.user,
-    password: credintials.password,
-    host: 'imap.gmail.com',
-    port: 993,
-    tls: true
-});
+var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
-function openInbox(cb) {
-	imap.openBox('INBOX', true, cb);
-}
+oauth2Client.setCredentials(credintials.tokens);
 
-imap.once('ready', function() {
-	openInbox(function(err, box) {
-		if (err) throw err;
-		var f = imap.seq.fetch('1:3', {
-			bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
-			struct: true
-		});
-		f.on('message', function(msg, seqno) {
-			console.log('Message #%d', seqno);
-			var prefix = '(#' + seqno + ') ';
-			msg.on('body', function(stream, info) {
-				var buffer = '';
-				stream.on('data', function(chunk) {
-					buffer += chunk.toString('utf8');
-				});
-				stream.once('end', function() {
-					console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
-				});
-			});
-			msg.once('attributes', function(attrs) {
-				console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
-			});
-			msg.once('end', function() {
-				console.log(prefix + 'Finished');
-			});
-		});
-		f.once('error', function(err) {
-			console.log('Fetch error: ' + err);
-		});
-		f.once('end', function() {
-			console.log('Done fetching all messages!');
-			imap.end();
-		});
-	});
-});
+google.options({ auth: oauth2Client });
 
-imap.once('error', function(err) {
-	console.log(err);
-});
-
-imap.once('end', function() {
-	console.log('Connection ended');
-});
-
-imap.connect();
+gmail.users.messages.list({userId:"osamah.net.m@gmail.com"},function(err,data){
+	console.log(profile,data);
+})

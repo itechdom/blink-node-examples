@@ -11,6 +11,7 @@
   "dependencies": {
     "googleapis": "^2.1.6",
     "imap": "^0.8.16",
+    "readline": "^1.1.0",
     "rx": "^4.0.6",
     "shelljs": "^0.5.3"
   }
