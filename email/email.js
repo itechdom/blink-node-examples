@@ -3,10 +3,9 @@ var Imap = require('imap'),
 
 var credintials = require('./credintials.js');
 
-console.log(credintials);
 var imap = new Imap({
-	user: 'mygmailname@gmail.com',
-    password: 'mygmailpassword',
+	user: credintials.user,
+    password: credintials.password,
     host: 'imap.gmail.com',
     port: 993,
     tls: true
